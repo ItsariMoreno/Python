@@ -1,7 +1,8 @@
 from random import *
 Jugador=str(input("Ingresa tu nombre: "))
-print("Bienvenido ",Jugador," Has ingresado al juego de la")
 print("=========Ruleta Rusa========")
+print("Bienvenido ",Jugador)
+
 
 while True:
     try:
