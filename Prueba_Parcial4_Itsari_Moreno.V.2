@@ -1,0 +1,149 @@
+Usuario={}
+###############OPCION 1###############
+
+def ingresar_usuario():
+        while True:
+            user=input("Ingrese nombre de usuario: ")
+            user=user.title()
+            if " " in user:
+                 print("No puede ingresar espacios")
+            else:
+                nombre_buscado=validar_existente(user)
+                if nombre_buscado == None:
+                        sexo=ingresar_sexo() 
+                        contrasena=validar_contrasena()
+                        Usuario[user]=[sexo, contrasena]
+                        print("Usuario ingresado con exito!!")
+                        return Usuario
+
+                else:
+                    print("Usuario ya existe. Intento otro.")
+                    continue
+            
+def validar_existente(user):
+    if user in Usuario:
+        return Usuario[user]
+    else:
+        return None
+                
+def validar_nombre_usuario(ingresar_user):
+    while True:
+        try:
+            if  all(caracter.isalpha() or  caracter=="." for caracter in str(ingresar_user)): #valida todas las letras de la palabra y que incluya .
+                    
+                    return ingresar_user
+            else:
+                print("Nombre invalido.")
+        except TypeError:
+            print("Error al ingresar nombre.")   
+
+def ingresar_sexo():
+    while True:
+        sexo=input("Ingrese sexo: ")
+        sexo=sexo.title()
+        if len(sexo) == 1:
+                if sexo == "M" or sexo == "F":
+                        return sexo
+                else:
+                        print("Debe ingresar M o F solamente. Intente de nuevo.")
+                        continue
+        else:
+            print("Debe ingresar M o F solamente. Intente de nuevo.")
+            continue
+
+              
+#################### OPCION 1 VALIDAR CONTRASEÑA ######################
+def validar_contrasena():
+    while True:
+        contrasena=input("Ingrese contraseña: ")
+        if " " in contrasena:
+                 print("Contraseña no valida. Intente otra.")
+        else:
+                if cantidad_caracteres(contrasena) == True:
+                    if cantidad_numeros(contrasena) ==True:
+                        if cantidad_letras(contrasena)== True:
+                            
+                                    print("Contraseña valida.")
+                                    return contrasena
+                else:
+                    continue
+                        
+
+def cantidad_caracteres(contrasena):
+    if len(contrasena)>=8:
+         return True
+    else:
+         print("Contraseña no valida. Intente otra.")
+         
+def cantidad_numeros(contrasena):
+    contar_numeros=0
+    for numeros in str(contrasena):
+          if numeros.isnumeric()==True:
+               contar_numeros=contar_numeros+1
+    if contar_numeros>=1:
+         return True
+    else:
+         print("Contraseña no valida. Intente otra.")
+
+def cantidad_letras(contrasena):
+    contar_letras=0
+    for letras in str(contrasena):
+         if letras.isalpha()==True:
+              contar_letras=contar_letras+1
+    if contar_letras>=1:
+         return True
+    else:
+         print("Contraseña no valida. Intente otra.")
+
+
+##############OPCION 2##########
+def buscar_usuario():
+    user=input("Ingrese nombre de usuario: ")
+    user=user.title()
+    nombre_buscado=validar_existente(user)
+    if nombre_buscado != None: 
+        for usuario,datos in Usuario.items():
+            if usuario == user:
+             print(f"El sexo del usuario es: {datos[0]} y la contraseña es {datos[1]}")
+    else:
+                print("El usuario no se encuentra.")
+    
+                
+############### OPCION 3 #################
+
+def eliminar_usuario():
+    user=input("Ingrese nombre de usuario: ")
+    user=user.title()
+    eliminar=validar_existente(user)
+    if eliminar != None:
+         del Usuario[user]
+         print("Usuario eliminado con éxito!")
+    else:
+         print("No se pudo eliminar usuario!")
+
+
+######################### MENU ##################
+while True:
+    print("\n MENU PRINCIPAL")
+    print("1.-Ingresar usuario.")
+    print("2.-Buscar usuario.")
+    print("3.-Eliminar usuario.")
+    print("4.- Salir.")
+
+    try:
+        opcion=(int(input("Ingrese opción: ")))
+
+        match opcion:
+            case 1:
+                ingresar_usuario()
+            case 2:
+                buscar_usuario()
+            case 3:
+                eliminar_usuario()
+            case 4:
+                print("Programa terminado..."); break
+            case  _:
+                print("Debe ingresar una opción válida!!")
+
+    except ValueError:
+        print("Debe ingresar una opción válida!!")
