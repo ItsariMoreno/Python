@@ -31,7 +31,7 @@ def stock_marca(marca):
         if marca.upper() in values[0].upper():
                 buscar=key
                 cantidad= mostrar_stock(buscar)
-                if cantidad > 0:
+                if cantidad > 0 or cantidad is None:
                     i= i+ cantidad
                      ########## sumar correctamente
                     encontrar=True
@@ -43,35 +43,39 @@ def stock_marca(marca):
 def mostrar_stock(buscar):
     cantidad=0
     for key, values in stock.items():
-          if buscar in key:
+          if buscar == key:
                 cantidad=values[1]
                 return cantidad
   
                
             
-def búsqueda_precio(p_min, p_max):
-    encontrar=False
+def busqueda_precio(p_min, p_max):
+    lista=[]
 
     for key, values in stock.items():
         precio=values[0]
-        if p_min <= precio and p_max >= precio:
-           print(f"Los notebooks entre los precios consultas son:")
-           buscar=key
-           for buscar, datos in productos.items():
-            print(f"{buscar} -- {datos[0]}")
-            encontrar=True
-    if not encontrar:
-         print("No hay notebooks en ese rango de precios.")
-        
+        disponible=values[1]
+        if p_min <= precio and p_max >= precio and disponible > 0 and key in productos:
+           
+               codigo= productos[key][0]
+               lista.append((key,codigo))
+               
+    if lista:
+          print("los notebooks entre los precios consultas son:")
+          for key, datos in lista:
+              print(f"{key} -- {datos}")
+    else:
+          print("no hay notebooks en ese rango de precios.")
+          
 
 
 
 def actualizar_precio(modelo, p):
     encontrar=False
     for key, values in stock.items():
-          if modelo in key:
+          if modelo == key:
             print(key, values)
-            stock[modelo]=[p][0]
+            stock[modelo][0]=p
             encontrar=True
             return True
     if not encontrar:
@@ -102,7 +106,7 @@ while True:
                         if p_min < 0 or p_max < 0:
                             raise ValueError 
                         else:
-                             búsqueda_precio(p_min, p_max)
+                             busqueda_precio(p_min, p_max)
                     except ValueError:
                         print("Debe ingresar valores enteros!!")
                 case 3:
@@ -120,7 +124,7 @@ while True:
                                 match reintentar:
                                     case "si":
                                         continue
-                                    case "Sí":
+                                    case "sí":
                                         continue
                                     case "no":
                                         break
