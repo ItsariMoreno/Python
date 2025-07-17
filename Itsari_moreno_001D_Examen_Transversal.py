@@ -33,7 +33,6 @@ def stock_marca(marca):
                 cantidad= mostrar_stock(buscar)
                 if cantidad > 0 or cantidad is None:
                     i= i+ cantidad
-                     ########## sumar correctamente
                     encontrar=True
     print("El stock es:", i)
     if not encontrar:
@@ -74,7 +73,6 @@ def actualizar_precio(modelo, p):
     encontrar=False
     for key, values in stock.items():
           if modelo == key:
-            print(key, values)
             stock[modelo][0]=p
             encontrar=True
             return True
@@ -116,8 +114,9 @@ while True:
                             modelo=input("Ingrese modelo a actualizar:")
                             p=int(input("Ingrese precio nuevo:"))
                             actualizar=actualizar_precio(modelo, p) 
-                            if actualizar == True:#########################
+                            if actualizar == True:
                                 print("Precio actualizado!!")
+                                break
                             elif actualizar== False:
                                 print("El modelo no existe!!")
                                 reintentar= input("Desea actualizar otro precio (s/n)?:").lower()
